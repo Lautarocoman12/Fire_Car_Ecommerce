@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'app/index.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="hero-slider">
+
+    <div class="slides">
+        <img src="{% static 'img/banner.png' %}" class="slide active">
+        <img src="{% static 'img/banner2.png' %}" class="slide">
+        <img src="{% static 'img/banner3.png' %}" class="slide">
+    </div>
+
+    <!-- INDICADORES -->
+    <div class="indicators">
+        <span class="dot active-dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </div>
+</div>
+
+<!-- BOTÓN PRINCIPAL -->
+<div class="main-action-container">
+    <a href="{% url 'marketplace' %}" class="main-action-btn">Comprar y Publicar Aquí</a>
+</div>
+
+<div class="selector-section">
+
+<div class="selector-options">
+    <button class="selector-btn active" data-img="6" data-title="Autos nuevos">Autos</button>
+    <button class="selector-btn" data-img="7" data-title="SUV y 4x4">Elegantes</button>
+    <button class="selector-btn" data-img="11" data-title="Pick Ups disponibles">Modernos</button>
+    <button class="selector-btn" data-img="9" data-title="Vehículos eléctricos">Eléctricos</button>
+    
+</div>
+
+<div class="selector-display">
+    <img id="selector-image" src="{% static 'img/op1.png' %}" alt="">
+    <h2 id="selector-title">Autos nuevos</h2>
+</div>
+
+<!-- SECCIÓN DE SERVICIOS -->
+<div class="services-section">
+
+    <div class="service-card">
+        <img src="{% static 'img/iconoventa.png' %}" class="service-icon">
+        <h3>¿Como vender mi coche?</h3>
+        <a href="{% url 'comovender' %}" class="service-link">Conocer →</a>
+    </div>
+
+    <div class="service-card">
+        <img src="{% static 'img/whatsappp.png' %}" class="service-icon">
+        <h3>Chateá con nosotros</h3>
+        <a href="https://wa.me/5491127894944?text=Hola%20quiero%20consultar%20por%20la%20venta%20de%20un%20vehículo"
+   class="service-link"
+   target="_blank">
+   Chatear →
+</a>
+    </div>
+
+    <div class="service-card">
+        <img src="{% static 'img/robot.png' %}" class="service-icon">
+        <h3>Asistencia IA</h3>
+        <a href="#" class="service-link">Descubrir →</a>
+    </div>
+
+</div>
+
+
+</div>
+
+{% endblock %}

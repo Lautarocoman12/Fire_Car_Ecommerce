@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Registro{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Crear Cuenta</h2>
+
+    <!-- Mostrar errores generales -->
+    {% if form.errors %}
+        <div class="error">
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- Campos personalizados del RegistroForm -->
+        <input type="text" name="{{ form.nombre.name }}" placeholder="Nombre" value="{{ form.nombre.value|default:'' }}" required>
+        <input type="text" name="{{ form.apellido.name }}" placeholder="Apellido" value="{{ form.apellido.value|default:'' }}" required>
+        <input type="email" name="{{ form.email.name }}" placeholder="Email" value="{{ form.email.value|default:'' }}" required>
+        <input type="password" name="{{ form.password1.name }}" placeholder="Contraseña" required>
+        <input type="password" name="{{ form.password2.name }}" placeholder="Confirmar Contraseña" required>
+
+        <button type="submit">Registrarme</button>
+    </form>
+
+    <p class="register-link">
+        ¿Ya tenés cuenta? <a href="{% url 'login' %}">Iniciar sesión</a>
+    </p>
+</div>
+{% endblock %}

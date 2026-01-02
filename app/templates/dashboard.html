@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Mi Perfil{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Mi Perfil</h2>
+
+    <!-- Formulario de edición de perfil -->
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Actualizar</button>
+    </form>
+
+    <!-- Foto de perfil -->
+    {% if user.foto_perfil %}
+        <img src="{{ user.foto_perfil.url }}" alt="Foto de perfil" style="width:150px; height:150px; border-radius:50%; margin-top:15px;">
+    {% else %}
+        <img src="{% static 'app/user-icon.png' %}" alt="Foto predeterminada" style="width:150px; height:150px; border-radius:50%; margin-top:15px;">
+    {% endif %}
+</div>
+
+<!-- Sección de publicaciones -->
+<div class="card" style="margin-top:40px;">
+    <h2>Mis publicaciones</h2>
+
+    {% if publicaciones %}
+        <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+            <thead>
+                <tr style="background:#222; color:#fff;">
+                    <th style="padding:10px; text-align:left;">Título</th>
+                    <th style="padding:10px; text-align:left;">Precio</th>
+                    <th style="padding:10px; text-align:left;">Fecha</th>
+                    <th style="padding:10px; text-align:left;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for coche in publicaciones %}
+                <tr style="border-bottom:1px solid #444;">
+                    <td style="padding:10px;">{{ coche.marca_modelo }} - {{ coche.año }}</td>
+                    <td style="padding:10px;">${{ coche.precio }}</td>
+                    <td style="padding:10px;">{{ coche.fecha_publicacion|date:"d/m/Y H:i" }}</td>
+                    <td style="padding:10px;">
+                        <a href="{% url 'detalle_producto' coche.id %}" style="color:red; font-weight:bold;">Ver detalle</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="margin-top:20px;">Todavía no publicaste ningún coche.</p>
+    {% endif %}
+</div>
+{% endblock %}

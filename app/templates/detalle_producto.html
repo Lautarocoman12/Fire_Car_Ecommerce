@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}{{ producto.marca_modelo }}{% endblock %}
+
+{% block content %}
+<div class="detail-container">
+
+    <div class="detail-left">
+        {% if producto.fotos.first %}
+            <img src="{{ producto.fotos.first.imagen.url }}" class="detail-img">
+        {% endif %}
+    </div>
+
+    <div class="detail-right">
+        <h2>{{ producto.marca_modelo }}</h2>
+        <h3 class="price">${{ producto.precio }}</h3>
+
+        <p><strong>Año:</strong> {{ producto.año }}</p>
+        <p><strong>Kilometraje:</strong> {{ producto.kilometraje }} km</p>
+        <p><strong>Combustible:</strong> {{ producto.get_combustible_display }}</p>
+        <p><strong>Transmisión:</strong> {{ producto.get_transmision_display }}</p>
+        <p><strong>Ubicación:</strong> {{ producto.ubicacion }}</p>
+
+        <hr>
+
+        <p><strong>Estado general:</strong><br>{{ producto.estado_general }}</p>
+        <p><strong>Mantenimiento:</strong><br>{{ producto.mantenimiento }}</p>
+        <p><strong>Documentación:</strong><br>{{ producto.documentacion }}</p>
+
+        <a href="{% url 'marketplace' %}" class="back-btn">⬅ Volver</a>
+    </div>
+
+</div>
+
+<div class="detail-gallery">
+    {% for foto in producto.fotos.all %}
+        <img src="{{ foto.imagen.url }}">
+    {% endfor %}
+</div>
+{% endblock %}

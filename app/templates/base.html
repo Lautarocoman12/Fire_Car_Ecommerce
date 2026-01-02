@@ -1,0 +1,258 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Mi Proyecto{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'app/index.css' %}?v=8">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+<!-- BOTÓN HAMBURGUESA -->
+<div class="hamburger-wrapper">
+    <div class="hamburger-btn" id="hamburgerToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</div>
+
+<!-- MENÚ DESPLEGABLE -->
+<div class="hamburger-menu" id="hamburgerMenu">
+    <a href="{% url 'index' %}">Inicio</a>
+    <a href="{% url 'marketplace' %}">Coches</a>
+    <a href="{% url 'publicar_producto' %}">Publicar</a>
+    {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}">Mi Cuenta</a>
+        <form id="logoutFormHamb" method="POST" action="{% url 'logout' %}" style="display:none;">
+            {% csrf_token %}
+        </form>
+        <a href="#" onclick="document.getElementById('logoutFormHamb').submit(); return false;">Cerrar sesión</a>
+    {% else %}
+        <a href="{% url 'login' %}">Iniciar sesión</a>
+        <a href="{% url 'registro' %}">Crear cuenta</a>
+    {% endif %}
+</div>
+
+<nav class="dynamic-island">
+    <div class="island-content">
+
+        <!-- Logo -->
+        <a href="{% url 'index' %}">
+            <img src="{% static 'app/logoo.png' %}" class="island-logo">
+        </a>
+
+        <!-- Search -->
+        <form method="GET" action="{% url 'marketplace' %}" class="island-search-form">
+    <input 
+        type="text" 
+        name="q" 
+        class="island-search" 
+        placeholder="Buscar autos..."
+        value="{{ request.GET.q }}"
+    >
+</form>
+
+
+        <!-- Links dinámicos -->
+        <div class="island-links">
+            <a href="{% url 'marketplace' %}">Coches</a>
+
+            {% if user.is_authenticated %}
+                <!-- Ícono de cuenta con menú -->
+                <div class="cuenta-dropdown">
+                    <button class="cuenta-btn">
+                        {% if user.foto_perfil %}
+                            <img src="{{ user.foto_perfil.url }}" class="avatar">
+                        {% else %}
+                            <img src="{% static 'app/user-icon.png' %}" class="avatar">
+                        {% endif %}
+                    </button>
+                    <div class="cuenta-menu">
+                        <a href="{% url 'dashboard' %}">Mi perfil</a>
+                        <form id="logoutForm" method="POST" action="{% url 'logout' %}" style="display:none;">
+                            {% csrf_token %}
+                        </form>
+                        <a href="#" onclick="document.getElementById('logoutForm').submit(); return false;">Cerrar sesión</a>
+                    </div>
+                </div>
+            {% else %}
+                <a href="{% url 'login' %}">Iniciar sesión</a>
+                <a href="{% url 'registro' %}" class="island-btn">Crear cuenta</a>
+            {% endif %}
+
+           
+        </div>
+
+    </div>
+</nav>
+
+<!-- CONTENIDO DINÁMICO -->
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<footer class="footer">
+    <div class="footer-container">
+
+        <div class="footer-col">
+            <img src="{% static 'app/logoo.png' %}" class="island-logo">
+            <p>Tu marketplace de vehículos.</p>
+        </div>
+
+        <div class="footer-col">
+            <h4>Enlaces</h4>
+            <ul>
+                <li><a href="{% url 'index' %}">Inicio</a></li>
+                <li><a href="{% url 'publicar_producto' %}">Publicar coche</a></li>
+                <li><a href="{% url 'marketplace' %}">Ver coches</a></li>
+                <li>
+                    <a href="https://wa.me/5491127894944?text=Hola%20quiero%20consultar%20por%20la%20venta%20de%20un%20vehículo"
+                       class="service-link" target="_blank">
+                       contacto
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Contacto</h4>
+            <p>Email: firecar002@gmail.com</p>
+            <p>Tel: +54 11 1234 5678</p>
+            <p>Dirección: Buenos Aires, Argentina</p>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © 2025 Fire Car — Todos los derechos reservados
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    let index = 0;
+    const slides = document.querySelectorAll(".slide");
+    const dots = document.querySelectorAll(".dot");
+
+    function showSlide(i) {
+        slides.forEach(s => s.classList.remove("active"));
+        dots.forEach(d => d.classList.remove("active-dot"));
+
+        slides[i].classList.add("active");
+        dots[i].classList.add("active-dot");
+
+        index = i;
+    }
+
+    dots.forEach((dot, i) => {
+        dot.addEventListener("click", () => showSlide(i));
+    });
+
+    setInterval(() => {
+        let next = (index + 1) % slides.length;
+        showSlide(next);
+    }, 6000);
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const buttons = document.querySelectorAll(".selector-btn");
+    const img = document.getElementById("selector-image");
+    const title = document.getElementById("selector-title");
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            buttons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            const num = btn.dataset.img;
+            const text = btn.dataset.title;
+
+            img.src = `/static/img/op${num}.png`;
+            title.textContent = text;
+        });
+    });
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("hamburgerToggle");
+    const menu = document.getElementById("hamburgerMenu");
+
+    btn.addEventListener("click", () => {
+        btn.classList.toggle("active");
+        menu.classList.toggle("open");
+    });
+});
+</script>
+
+<script>
+const buttons = document.querySelectorAll(".selector-btn");
+const image = document.getElementById("selector-image");
+const title = document.getElementById("selector-title");
+
+buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        const imgNum = btn.getAttribute("data-img");
+        image.src = `/static/img/op${imgNum}.png`;
+        title.textContent = btn.getAttribute("data-title");
+
+        image.classList.remove("animate-in");
+        title.classList.remove("animate-in");
+
+        void image.offsetWidth;
+        void title.offsetWidth;
+
+        image.classList.add("animate-in");
+        title.classList.add("animate-in");
+
+        buttons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+    });
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("filterToggle");
+    const panel = document.getElementById("filterPanel");
+
+    btn.addEventListener("click", () => {
+        panel.classList.toggle("open");
+    });
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const cuentaDropdown = document.querySelector(".cuenta-dropdown");
+  const cuentaBtn = document.querySelector(".cuenta-btn");
+
+  if (cuentaDropdown && cuentaBtn) {
+    cuentaBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      cuentaDropdown.classList.toggle("open");
+    });
+
+    cuentaDropdown.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+
+    document.addEventListener("click", () => {
+      cuentaDropdown.classList.remove("open");
+    });
+  }
+});
+</script>
+
+</body>
+</html>

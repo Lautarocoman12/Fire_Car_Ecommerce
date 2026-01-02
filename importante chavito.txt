@@ -1,0 +1,8 @@
+mensajes que te dejo.
+
+1- arreglar el sistema de login (dejo de andar recien vi xd, fijate en la consola, no crea el usuario, tambien lo de iniciar con google)
+2- hacer la pagina de venta de coches (tipo marketplace, pedile a chatgpt que te haga la misma estetica igual cualquier cosa me fijo despues)
+3- en el menu hamburguesa vas a ver que no funciona "mi cuenta" "publicar coche" "comprar coche" "cerrar sesion" hace que funcionen, corte crea lo de comprar y vender, lo de perfil lo hago yo de ultima
+4- hace el template de como vender mi coche, lo de chatea con nosotros y lo de la IA
+
+* La pagina se llama "Firecar" no me gusta del todo pero no hay otra con el mismo nombre

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Cómo vender mi coche{% endblock %}
+
+{% block content %}
+
+<div class="info-page">
+
+    <h1>Cómo vender tu coche</h1>
+
+    <p class="intro">
+        Publicar tu vehículo en Fire Car es rápido, simple y seguro.
+        Seguí estos pasos para vender tu coche sin complicaciones.
+    </p>
+
+    <section class="info-section">
+        <h2>📌 Pasos para vender</h2>
+        <ol>
+            <li>Creá una cuenta o iniciá sesión</li>
+            <li>Ingresá a la sección <strong>Publicar vehículo</strong></li>
+            <li>Completá los datos del coche</li>
+            <li>Subí fotos claras y reales</li>
+            <li>Publicá y esperá contactos</li>
+        </ol>
+    </section>
+
+    <section class="info-section">
+        <h2>📄 Requisitos</h2>
+        <ul>
+            <li>Ser mayor de 18 años</li>
+            <li>Tener la documentación del vehículo</li>
+            <li>Fotos reales del coche</li>
+            <li>Precio acorde al mercado</li>
+        </ul>
+    </section>
+
+    <section class="info-section">
+        <h2>🔒 Seguridad</h2>
+        <p>
+            Nunca compartas datos personales sensibles.
+            Fire Car no solicita pagos por publicar vehículos.
+        </p>
+    </section>
+
+    <a href="{% url 'publicar_producto' %}" class="btn-primary">
+        Publicar mi coche
+    </a>
+
+</div>
+
+{% endblock %}
