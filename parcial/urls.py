@@ -6,16 +6,12 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("admin/", admin.site.urls),
 
-    # Rutas de tu app principal
+    # App principal
     path("", include("app.urls")),
 
-    # Rutas de tu app accounts (registro/login propios)
+    # Accounts propios
     path("accounts/", include("accounts.urls")),
-
-    # Rutas de allauth (para login con Google y otros proveedores)
-    path("accounts/", include("allauth.urls")),
 ]
 
-# 👇 Necesario para mostrar y guardar imágenes en desarrollo
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
