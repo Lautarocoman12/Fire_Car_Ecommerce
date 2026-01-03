@@ -3,14 +3,23 @@ Django settings for parcial project.
 """
 
 from pathlib import Path
-import os
 
+# ============================
+# Base
+# ============================
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
-DEBUG = True
+# ============================
+# Seguridad
+# ============================
+SECRET_KEY = "unsafe-dev-key-for-demo"
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = [
+    "fire-car-ecommerce.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
 
 # ============================
 # Apps instaladas
@@ -25,13 +34,6 @@ INSTALLED_APPS = [
 
     'app',
     'accounts',
-
-    # allauth
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
 ]
 
 # ============================
@@ -45,17 +47,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    # Necesario para allauth
-    'allauth.account.middleware.AccountMiddleware',
 ]
 
+# ============================
+# URLs / Templates
+# ============================
 ROOT_URLCONF = 'parcial.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],  # no hace falta directorio extra
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,45 +102,12 @@ USE_TZ = True
 # ============================
 # Archivos estáticos y media
 # ============================
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "app" / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
-# ============================
-# Sites y Auth
-# ============================
-SITE_ID = 1
-
-AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
-]
-
-# ============================
-# Configuración de Allauth
-# ============================
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'APP': {
-            'client_id': os.getenv("GOOGLE_CLIENT_ID"),
-            'secret': os.getenv("GOOGLE_CLIENT_SECRET"),
-            'key': ''
-        },
-        'SCOPE': ['profile', 'email'],
-        'AUTH_PARAMS': {'access_type': 'online'},
-        'OAUTH_PKCE_ENABLED': True,
-    }
-}
-
-
-SOCIALACCOUNT_LOGIN_ON_GET = True
-SOCIALACCOUNT_AUTO_SIGNUP = True
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "none"
-SOCIALACCOUNT_EMAIL_VERIFICATION = False
 
 # ============================
 # Redirecciones login/logout
@@ -151,3 +120,7 @@ LOGOUT_REDIRECT_URL = '/'
 # ============================
 AUTH_USER_MODEL = 'accounts.UsuarioPersonalizado'
 
+# ============================
+# Default PK
+# ============================
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
